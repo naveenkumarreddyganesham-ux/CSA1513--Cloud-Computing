@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Student Attendance System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f2f6fc;
+            color: #222;
+        }
+
+        header {
+            background: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 22px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin: 8px 0 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .attendance-options {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .attendance-options label {
+            font-weight: normal;
+        }
+
+        .attendance-options input {
+            width: auto;
+        }
+
+        button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .result {
+            display: none;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .result-box {
+            background: #eef5ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .result-box strong {
+            display: block;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .status {
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .present {
+            background: #c8e6c9;
+            color: #256029;
+        }
+
+        .absent {
+            background: #ffcdd2;
+            color: #b71c1c;
+        }
+
+        .od {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .footer {
+            text-align: center;
+            background: #1976d2;
+            color: white;
+            padding: 15px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>☁️ Cloud Student Attendance System</h1>
+    <p>SaaS Based Attendance Management Application</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Student Attendance Details</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Student Name</label>
+                <input type="text" id="studentName" placeholder="Enter student name">
+            </div>
+
+            <div>
+                <label>Register Number</label>
+                <input type="text" id="regNo" placeholder="Enter register number">
+            </div>
+
+            <div>
+                <label>Course / Department</label>
+                <select id="course">
+                    <option value="">Select Course</option>
+                    <option>CSE - AIML</option>
+                    <option>Computer Science Engineering</option>
+                    <option>Information Technology</option>
+                    <option>Electronics and Communication Engineering</option>
+                    <option>Mechanical Engineering</option>
+                    <option>Civil Engineering</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Subject / Course</label>
+                <input type="text" id="subject" placeholder="Example: Machine Learning">
+            </div>
+
+            <div>
+                <label>Total Classes Conducted</label>
+                <input type="number" id="totalClasses" placeholder="Enter total classes">
+            </div>
+
+            <div>
+                <label>Classes Attended</label>
+                <input type="number" id="attendedClasses" placeholder="Enter attended classes">
+            </div>
+
+            <div>
+                <label>Today's Attendance</label>
+
+                <div class="attendance-options">
+                    <label>
+                        <input type="radio" name="attendance" value="Present">
+                        Present
+                    </label>
+
+                    <label>
+                        <input type="radio" name="attendance" value="Absent">
+                        Absent
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label>OD Request</label>
+                <select id="odRequest">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Grade</label>
+                <select id="grade">
+                    <option value="">Select Grade</option>
+                    <option>A+</option>
+                    <option>A</option>
+                    <option>B+</option>
+                    <option>B</option>
+                    <option>C</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Attendance Date</label>
+                <input type="date" id="date">
+            </div>
+
+        </div>
+
+        <button onclick="processAttendance()">Process Attendance</button>
+    </div>
+
+
+    <div class="card result" id="result">
+        <h2>📊 Attendance Report</h2>
+
+        <div class="result-grid">
+
+            <div class="result-box">
+                <strong>Student Name</strong>
+                <span id="rName"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Register Number</strong>
+                <span id="rRegNo"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Course</strong>
+                <span id="rCourse"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Subject</strong>
+                <span id="rSubject"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Today's Attendance</strong>
+                <span id="rAttendance"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>OD Request</strong>
+                <span id="rOD"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Total Classes</strong>
+                <span id="rTotal"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Classes Attended</strong>
+                <span id="rAttended"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Attendance Percentage</strong>
+                <span id="rPercentage"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Grade</strong>
+                <span id="rGrade"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Attendance Status</strong>
+                <span id="rStatus"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Attendance Date</strong>
+                <span id="rDate"></span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    ☁️ Cloud SaaS Application | Student Attendance Management System
+</div>
+
+
+<script>
+
+function processAttendance() {
+
+    let name = document.getElementById("studentName").value;
+    let regNo = document.getElementById("regNo").value;
+    let course = document.getElementById("course").value;
+    let subject = document.getElementById("subject").value;
+    let total = Number(document.getElementById("totalClasses").value);
+    let attended = Number(document.getElementById("attendedClasses").value);
+    let od = document.getElementById("odRequest").value;
+    let grade = document.getElementById("grade").value;
+    let date = document.getElementById("date").value;
+
+    let attendance = document.querySelector(
+        'input[name="attendance"]:checked'
+    );
+
+    if (name === "" || regNo === "" || course === "" ||
+        subject === "" || total <= 0 || attended < 0) {
+
+        alert("Please enter all required details.");
+        return;
+    }
+
+    if (attended > total) {
+        alert("Classes attended cannot be greater than total classes.");
+        return;
+    }
+
+    if (!attendance) {
+        alert("Please select Present or Absent.");
+        return;
+    }
+
+    let attendancePercentage = (attended / total) * 100;
+
+    document.getElementById("rName").innerText = name;
+    document.getElementById("rRegNo").innerText = regNo;
+    document.getElementById("rCourse").innerText = course;
+    document.getElementById("rSubject").innerText = subject;
+    document.getElementById("rTotal").innerText = total;
+    document.getElementById("rAttended").innerText = attended;
+    document.getElementById("rPercentage").innerText =
+        attendancePercentage.toFixed(2) + "%";
+    document.getElementById("rGrade").innerText =
+        grade === "" ? "Not Selected" : grade;
+    document.getElementById("rOD").innerText = od;
+    document.getElementById("rDate").innerText =
+        date === "" ? "Not Selected" : date;
+
+    let attendanceValue = attendance.value;
+    let attendanceElement = document.getElementById("rAttendance");
+
+    attendanceElement.innerText = attendanceValue;
+
+    if (attendanceValue === "Present") {
+        attendanceElement.className = "status present";
+    } else {
+        attendanceElement.className = "status absent";
+    }
+
+    let statusElement = document.getElementById("rStatus");
+
+    if (od === "Yes") {
+        statusElement.innerText = "OD Requested";
+        statusElement.className = "status od";
+    } else if (attendancePercentage >= 75) {
+        statusElement.innerText = "Eligible";
+        statusElement.className = "status present";
+    } else {
+        statusElement.innerText = "Attendance Shortage";
+        statusElement.className = "status absent";
+    }
+
+    document.getElementById("result").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>

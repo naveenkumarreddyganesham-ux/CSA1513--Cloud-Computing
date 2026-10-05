@@ -1,0 +1,578 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cloud Mark Sheet Processing System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f2f5f9;
+        }
+
+        .header {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #1565c0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .marks-section {
+            margin-top: 25px;
+        }
+
+        .marks-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .process-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #1565c0;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .process-btn:hover {
+            background: #0d47a1;
+        }
+
+        #result {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .result-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-left: 5px solid #2e7d32;
+            border-radius: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background: #1565c0;
+            color: white;
+        }
+
+        .performance {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .cloud {
+            text-align: center;
+            margin-top: 25px;
+            color: #555;
+        }
+
+        @media(max-width: 700px) {
+            .form-grid,
+            .marks-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>📊 Cloud Mark Sheet Processing System</h1>
+        <p>SaaS-Based Student Result Management Application</p>
+    </div>
+
+    <div class="container">
+
+        <h2>Student Details</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Name of the Student</label>
+                <input type="text" id="studentName"
+                       placeholder="Enter student name">
+            </div>
+
+            <div class="form-group">
+                <label>Register Number</label>
+                <input type="text" id="regNo"
+                       placeholder="Enter register number">
+            </div>
+
+            <div class="form-group">
+                <label>Department</label>
+                <input type="text" id="department"
+                       placeholder="Example: CSE AIML">
+            </div>
+
+            <div class="form-group">
+                <label>Semester</label>
+                <input type="text" id="semester"
+                       placeholder="Example: III Semester">
+            </div>
+
+        </div>
+
+
+        <div class="marks-section">
+
+            <h2>Subject Marks</h2>
+
+            <div class="marks-grid">
+
+                <div class="form-group">
+                    <label>Python Programming</label>
+                    <input type="number" id="python"
+                           min="0" max="100"
+                           placeholder="Marks out of 100">
+                </div>
+
+                <div class="form-group">
+                    <label>Database Management System</label>
+                    <input type="number" id="dbms"
+                           min="0" max="100"
+                           placeholder="Marks out of 100">
+                </div>
+
+                <div class="form-group">
+                    <label>Machine Learning</label>
+                    <input type="number" id="ml"
+                           min="0" max="100"
+                           placeholder="Marks out of 100">
+                </div>
+
+                <div class="form-group">
+                    <label>Computer Networks</label>
+                    <input type="number" id="cn"
+                           min="0" max="100"
+                           placeholder="Marks out of 100">
+                </div>
+
+                <div class="form-group">
+                    <label>Operating Systems</label>
+                    <input type="number" id="os"
+                           min="0" max="100"
+                           placeholder="Marks out of 100">
+                </div>
+
+                <div class="form-group">
+                    <label>Cloud Computing</label>
+                    <input type="number" id="cloud"
+                           min="0" max="100"
+                           placeholder="Marks out of 100">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button class="process-btn" onclick="processMarkSheet()">
+            ⚙ Process Mark Sheet
+        </button>
+
+
+        <div id="result">
+
+            <div class="result-box">
+
+                <h2>Student Mark Sheet</h2>
+
+                <p id="studentDetails"></p>
+
+                <table>
+
+                    <tr>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                        <th>Result</th>
+                    </tr>
+
+                    <tr>
+                        <td>Python Programming</td>
+                        <td id="pythonResult"></td>
+                        <td id="pythonStatus"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Database Management System</td>
+                        <td id="dbmsResult"></td>
+                        <td id="dbmsStatus"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Machine Learning</td>
+                        <td id="mlResult"></td>
+                        <td id="mlStatus"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Computer Networks</td>
+                        <td id="cnResult"></td>
+                        <td id="cnStatus"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Operating Systems</td>
+                        <td id="osResult"></td>
+                        <td id="osStatus"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Cloud Computing</td>
+                        <td id="cloudResult"></td>
+                        <td id="cloudStatus"></td>
+                    </tr>
+
+                </table>
+
+
+                <table>
+
+                    <tr>
+                        <th>Total Marks</th>
+                        <th>Average</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+                        <th>Rank</th>
+                    </tr>
+
+                    <tr>
+                        <td id="total"></td>
+                        <td id="average"></td>
+                        <td id="percentage"></td>
+                        <td id="grade"></td>
+                        <td id="rank"></td>
+                    </tr>
+
+                </table>
+
+
+                <div class="performance">
+                    Overall Performance:
+                    <span id="performance"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="cloud">
+            ☁ Cloud SaaS Application |
+            Student Mark Sheet Processing System
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function processMarkSheet() {
+
+            let name =
+                document.getElementById("studentName").value;
+
+            let regNo =
+                document.getElementById("regNo").value;
+
+            let department =
+                document.getElementById("department").value;
+
+            let semester =
+                document.getElementById("semester").value;
+
+
+            let python =
+                Number(document.getElementById("python").value);
+
+            let dbms =
+                Number(document.getElementById("dbms").value);
+
+            let ml =
+                Number(document.getElementById("ml").value);
+
+            let cn =
+                Number(document.getElementById("cn").value);
+
+            let os =
+                Number(document.getElementById("os").value);
+
+            let cloud =
+                Number(document.getElementById("cloud").value);
+
+
+            if (name === "" || regNo === "") {
+
+                alert(
+                    "Please enter Student Name and Register Number."
+                );
+
+                return;
+            }
+
+
+            let marks = [
+                python,
+                dbms,
+                ml,
+                cn,
+                os,
+                cloud
+            ];
+
+
+            for (let i = 0; i < marks.length; i++) {
+
+                if (marks[i] < 0 || marks[i] > 100 ||
+                    isNaN(marks[i])) {
+
+                    alert(
+                        "Please enter valid marks between 0 and 100."
+                    );
+
+                    return;
+                }
+            }
+
+
+            let total =
+                python + dbms + ml + cn + os + cloud;
+
+            let average =
+                total / 6;
+
+            let percentage =
+                (total / 600) * 100;
+
+
+            let failed =
+                marks.some(mark => mark < 40);
+
+
+            let grade;
+            let performance;
+
+
+            if (failed) {
+
+                grade = "F";
+                performance = "Needs Improvement";
+
+            } else if (percentage >= 90) {
+
+                grade = "A+";
+                performance = "Excellent";
+
+            } else if (percentage >= 80) {
+
+                grade = "A";
+                performance = "Very Good";
+
+            } else if (percentage >= 70) {
+
+                grade = "B";
+                performance = "Good";
+
+            } else if (percentage >= 60) {
+
+                grade = "C";
+                performance = "Average";
+
+            } else {
+
+                grade = "D";
+                performance = "Satisfactory";
+            }
+
+
+            /*
+                Simple rank calculation
+                based on percentage.
+            */
+
+            let rank;
+
+            if (percentage >= 90) {
+
+                rank = "1 - 10";
+
+            } else if (percentage >= 80) {
+
+                rank = "11 - 25";
+
+            } else if (percentage >= 70) {
+
+                rank = "26 - 50";
+
+            } else if (percentage >= 60) {
+
+                rank = "51 - 100";
+
+            } else {
+
+                rank = "100+";
+            }
+
+
+            document.getElementById("studentDetails")
+                .innerHTML =
+                "<b>Name:</b> " + name +
+                "<br><b>Register Number:</b> " + regNo +
+                "<br><b>Department:</b> " +
+                department +
+                "<br><b>Semester:</b> " +
+                semester;
+
+
+            document.getElementById("pythonResult")
+                .innerHTML = python;
+
+            document.getElementById("dbmsResult")
+                .innerHTML = dbms;
+
+            document.getElementById("mlResult")
+                .innerHTML = ml;
+
+            document.getElementById("cnResult")
+                .innerHTML = cn;
+
+            document.getElementById("osResult")
+                .innerHTML = os;
+
+            document.getElementById("cloudResult")
+                .innerHTML = cloud;
+
+
+            document.getElementById("pythonStatus")
+                .innerHTML =
+                python >= 40 ? "Pass" : "Fail";
+
+            document.getElementById("dbmsStatus")
+                .innerHTML =
+                dbms >= 40 ? "Pass" : "Fail";
+
+            document.getElementById("mlStatus")
+                .innerHTML =
+                ml >= 40 ? "Pass" : "Fail";
+
+            document.getElementById("cnStatus")
+                .innerHTML =
+                cn >= 40 ? "Pass" : "Fail";
+
+            document.getElementById("osStatus")
+                .innerHTML =
+                os >= 40 ? "Pass" : "Fail";
+
+            document.getElementById("cloudStatus")
+                .innerHTML =
+                cloud >= 40 ? "Pass" : "Fail";
+
+
+            document.getElementById("total")
+                .innerHTML =
+                total + " / 600";
+
+            document.getElementById("average")
+                .innerHTML =
+                average.toFixed(2);
+
+            document.getElementById("percentage")
+                .innerHTML =
+                percentage.toFixed(2) + "%";
+
+            document.getElementById("grade")
+                .innerHTML =
+                grade;
+
+            document.getElementById("rank")
+                .innerHTML =
+                rank;
+
+            document.getElementById("performance")
+                .innerHTML =
+                performance;
+
+
+            document.getElementById("result")
+                .style.display = "block";
+        }
+
+    </script>
+
+</body>
+</html>
+```

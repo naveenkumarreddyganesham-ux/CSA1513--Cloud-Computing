@@ -1,0 +1,457 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chennai Property SaaS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f2f5f9;
+        }
+
+        .header {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header p {
+            margin-top: 8px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #1565c0;
+        }
+
+        .property-type {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .property-type button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #e3eaf2;
+            font-size: 15px;
+        }
+
+        .property-type button.active {
+            background: #1565c0;
+            color: white;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .search-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #1565c0;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #0d47a1;
+        }
+
+        #result {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #e8f5e9;
+            border-left: 5px solid #2e7d32;
+            border-radius: 6px;
+        }
+
+        .cloud {
+            text-align: center;
+            margin-top: 25px;
+            color: #555;
+        }
+
+        @media(max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .property-type {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🏠 Chennai Property SaaS</h1>
+        <p>Cloud-Based Property Buying & Rental Management System</p>
+    </div>
+
+    <div class="container">
+
+        <h2>Search Property</h2>
+
+        <!-- Buy / Rent / Commercial -->
+        <div class="property-type">
+
+            <button id="buyBtn"
+                    class="active"
+                    onclick="selectPurpose('Buy')">
+                🏠 Buy
+            </button>
+
+            <button id="rentBtn"
+                    onclick="selectPurpose('Rent')">
+                🔑 Rent
+            </button>
+
+            <button id="commercialBtn"
+                    onclick="selectPurpose('Commercial')">
+                🏢 Commercial
+            </button>
+
+        </div>
+
+        <div class="form-grid">
+
+            <!-- Property Type -->
+            <div class="form-group">
+                <label>Property Type</label>
+
+                <select id="propertyType">
+                    <option value="">Select Property</option>
+                    <option>Apartment</option>
+                    <option>Independent House</option>
+                    <option>Villa</option>
+                    <option>Plot / Land</option>
+                    <option>Office</option>
+                    <option>Shop</option>
+                    <option>Warehouse</option>
+                </select>
+            </div>
+
+            <!-- Area -->
+            <div class="form-group">
+                <label>Area</label>
+
+                <select id="area">
+                    <option value="">Select Area</option>
+                    <option>Anna Nagar</option>
+                    <option>Adyar</option>
+                    <option>Velachery</option>
+                    <option>Tambaram</option>
+                    <option>Porur</option>
+                    <option>OMR</option>
+                    <option>Sholinganallur</option>
+                    <option>Perungudi</option>
+                    <option>Guindy</option>
+                    <option>Avadi</option>
+                    <option>Ambattur</option>
+                    <option>Mylapore</option>
+                    <option>Thoraipakkam</option>
+                    <option>Mogappair</option>
+                </select>
+            </div>
+
+            <!-- Place -->
+            <div class="form-group">
+                <label>Place / Location</label>
+
+                <input type="text"
+                       id="place"
+                       placeholder="Enter locality or landmark">
+            </div>
+
+            <!-- BHK -->
+            <div class="form-group">
+                <label>BHK</label>
+
+                <select id="bhk">
+                    <option>Any</option>
+                    <option>1 BHK</option>
+                    <option>2 BHK</option>
+                    <option>3 BHK</option>
+                    <option>4 BHK</option>
+                    <option>5+ BHK</option>
+                </select>
+            </div>
+
+            <!-- Property Size -->
+            <div class="form-group">
+                <label>Property Area (sq.ft)</label>
+
+                <input type="number"
+                       id="size"
+                       placeholder="Example: 1200">
+            </div>
+
+            <!-- Budget -->
+            <div class="form-group">
+                <label>Budget / Range</label>
+
+                <select id="range">
+                    <option value="">Select Range</option>
+                    <option>Below ₹10 Lakhs</option>
+                    <option>₹10 Lakhs - ₹25 Lakhs</option>
+                    <option>₹25 Lakhs - ₹50 Lakhs</option>
+                    <option>₹50 Lakhs - ₹1 Crore</option>
+                    <option>₹1 Crore - ₹2 Crore</option>
+                    <option>Above ₹2 Crore</option>
+                </select>
+            </div>
+
+            <!-- Property Value -->
+            <div class="form-group">
+                <label>Property Value</label>
+
+                <input type="number"
+                       id="value"
+                       placeholder="Enter value in ₹">
+            </div>
+
+            <!-- Rental Agreement -->
+            <div class="form-group">
+                <label>Rental Agreement</label>
+
+                <select id="agreement">
+                    <option>Not Required</option>
+                    <option>11 Months</option>
+                    <option>1 Year</option>
+                    <option>2 Years</option>
+                    <option>3 Years</option>
+                </select>
+            </div>
+
+            <!-- Furnishing -->
+            <div class="form-group">
+                <label>Furnishing</label>
+
+                <select id="furnishing">
+                    <option>Any</option>
+                    <option>Fully Furnished</option>
+                    <option>Semi Furnished</option>
+                    <option>Unfurnished</option>
+                </select>
+            </div>
+
+            <!-- Parking -->
+            <div class="form-group">
+                <label>Parking</label>
+
+                <select id="parking">
+                    <option>Any</option>
+                    <option>1 Car Parking</option>
+                    <option>2 Car Parking</option>
+                    <option>Bike Parking</option>
+                    <option>No Parking</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button class="search-btn" onclick="searchProperty()">
+            🔍 Search Properties
+        </button>
+
+        <!-- Result -->
+        <div id="result">
+
+            <h3>Property Search Successful ✅</h3>
+
+            <p id="resultText"></p>
+
+        </div>
+
+        <div class="cloud">
+            ☁ Cloud SaaS Application | Property Management System
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let purpose = "Buy";
+
+
+        function selectPurpose(type) {
+
+            purpose = type;
+
+            document.getElementById("buyBtn")
+                .classList.remove("active");
+
+            document.getElementById("rentBtn")
+                .classList.remove("active");
+
+            document.getElementById("commercialBtn")
+                .classList.remove("active");
+
+
+            if (type === "Buy") {
+
+                document.getElementById("buyBtn")
+                    .classList.add("active");
+
+            }
+
+            else if (type === "Rent") {
+
+                document.getElementById("rentBtn")
+                    .classList.add("active");
+
+            }
+
+            else {
+
+                document.getElementById("commercialBtn")
+                    .classList.add("active");
+
+            }
+        }
+
+
+        function searchProperty() {
+
+            let propertyType =
+                document.getElementById("propertyType").value;
+
+            let area =
+                document.getElementById("area").value;
+
+            let place =
+                document.getElementById("place").value;
+
+            let bhk =
+                document.getElementById("bhk").value;
+
+            let size =
+                document.getElementById("size").value;
+
+            let range =
+                document.getElementById("range").value;
+
+            let value =
+                document.getElementById("value").value;
+
+            let agreement =
+                document.getElementById("agreement").value;
+
+            let furnishing =
+                document.getElementById("furnishing").value;
+
+            let parking =
+                document.getElementById("parking").value;
+
+
+            if (propertyType === "" ||
+                area === "" ||
+                range === "") {
+
+                alert("Please select Property Type, Area and Budget Range.");
+
+                return;
+            }
+
+
+            let message =
+
+                "<b>Purpose:</b> " + purpose + "<br>" +
+
+                "<b>Property Type:</b> " +
+                propertyType + "<br>" +
+
+                "<b>Area:</b> " +
+                area + "<br>" +
+
+                "<b>Place:</b> " +
+                (place || "Not specified") + "<br>" +
+
+                "<b>BHK:</b> " +
+                bhk + "<br>" +
+
+                "<b>Property Size:</b> " +
+                (size || "Not specified") +
+                " sq.ft<br>" +
+
+                "<b>Budget Range:</b> " +
+                range + "<br>" +
+
+                "<b>Property Value:</b> " +
+                (value ? "₹" + value : "Not specified") +
+                "<br>" +
+
+                "<b>Rental Agreement:</b> " +
+                agreement + "<br>" +
+
+                "<b>Furnishing:</b> " +
+                furnishing + "<br>" +
+
+                "<b>Parking:</b> " +
+                parking;
+
+
+            document.getElementById("resultText")
+                .innerHTML = message;
+
+            document.getElementById("result")
+                .style.display = "block";
+        }
+
+    </script>
+
+</body>
+</html>
+```

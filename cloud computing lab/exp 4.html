@@ -1,0 +1,895 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SIMATS Library SaaS</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f2f5f9;
+        }
+
+        /* Header */
+
+        .header {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .header p {
+            margin-top: 8px;
+        }
+
+        /* Main Container */
+
+        .container {
+            width: 90%;
+            max-width: 1050px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            color: #1565c0;
+        }
+
+        /* Search */
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            flex: 1;
+        }
+
+        .search-box button {
+            background: #1565c0;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* Form */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+        .form-group label {
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+
+            color: #333;
+        }
+
+        input,
+        select {
+
+            padding: 12px;
+
+            border: 1px solid #bbb;
+
+            border-radius: 6px;
+
+            font-size: 15px;
+        }
+
+        /* Button */
+
+        .reserve-btn {
+
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 14px;
+
+            background: #1565c0;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 7px;
+
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+        .reserve-btn:hover {
+
+            background: #0d47a1;
+        }
+
+        /* Result */
+
+        #result {
+
+            display: none;
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            background: #e8f5e9;
+
+            border-left:
+                5px solid #2e7d32;
+
+            border-radius: 6px;
+        }
+
+        /* Book Table */
+
+        table {
+
+            width: 100%;
+
+            border-collapse:
+                collapse;
+
+            margin-top: 25px;
+        }
+
+        th,
+        td {
+
+            padding: 12px;
+
+            border: 1px solid #ddd;
+
+            text-align: center;
+        }
+
+        th {
+
+            background: #1565c0;
+
+            color: white;
+        }
+
+        tr:nth-child(even) {
+
+            background: #f5f5f5;
+        }
+
+        /* Cloud */
+
+        .cloud {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #555;
+        }
+
+        @media(max-width: 700px) {
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+
+                flex-direction: column;
+            }
+
+            table {
+
+                font-size: 12px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <h1>
+            📚 SIMATS Library
+        </h1>
+
+        <p>
+            Cloud-Based Library Book Reservation System
+        </p>
+
+    </div>
+
+
+
+    <!-- Main Container -->
+
+    <div class="container">
+
+        <h2>
+            🔍 Search & Reserve Books
+        </h2>
+
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search by Book Title or Author">
+
+            <button onclick="searchBook()">
+                Search
+            </button>
+
+        </div>
+
+
+
+        <!-- Reservation Form -->
+
+        <div class="form-grid">
+
+
+            <!-- Book ID -->
+
+            <div class="form-group">
+
+                <label>
+                    Book ID
+                </label>
+
+                <input
+                    type="text"
+                    id="bookId"
+                    placeholder="Example: SIMATS101">
+
+            </div>
+
+
+
+            <!-- Book Title -->
+
+            <div class="form-group">
+
+                <label>
+                    Title of the Book
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Enter book title">
+
+            </div>
+
+
+
+            <!-- Author -->
+
+            <div class="form-group">
+
+                <label>
+                    Author
+                </label>
+
+                <input
+                    type="text"
+                    id="author"
+                    placeholder="Enter author name">
+
+            </div>
+
+
+
+            <!-- Publication -->
+
+            <div class="form-group">
+
+                <label>
+                    Publication
+                </label>
+
+                <input
+                    type="text"
+                    id="publication"
+                    placeholder="Enter publication">
+
+            </div>
+
+
+
+            <!-- Year -->
+
+            <div class="form-group">
+
+                <label>
+                    Year
+                </label>
+
+                <input
+                    type="number"
+                    id="year"
+                    placeholder="Example: 2024">
+
+            </div>
+
+
+
+            <!-- Edition -->
+
+            <div class="form-group">
+
+                <label>
+                    Edition
+                </label>
+
+                <select id="edition">
+
+                    <option>
+                        1st Edition
+                    </option>
+
+                    <option>
+                        2nd Edition
+                    </option>
+
+                    <option>
+                        3rd Edition
+                    </option>
+
+                    <option>
+                        4th Edition
+                    </option>
+
+                    <option>
+                        5th Edition
+                    </option>
+
+                    <option>
+                        Latest Edition
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Copies -->
+
+            <div class="form-group">
+
+                <label>
+                    No. of Copies
+                </label>
+
+                <input
+                    type="number"
+                    id="copies"
+                    min="1"
+                    placeholder="Enter number of copies">
+
+            </div>
+
+
+
+            <!-- Rack -->
+
+            <div class="form-group">
+
+                <label>
+                    Rack No.
+                </label>
+
+                <input
+                    type="text"
+                    id="rack"
+                    placeholder="Example: R-12">
+
+            </div>
+
+
+
+            <!-- Status -->
+
+            <div class="form-group">
+
+                <label>
+                    Book Status
+                </label>
+
+                <select id="status">
+
+                    <option value="Returned">
+                        Returned
+                    </option>
+
+                    <option value="Taken">
+                        Taken
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Student Name -->
+
+            <div class="form-group">
+
+                <label>
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="student"
+                    placeholder="Enter student name">
+
+            </div>
+
+
+
+            <!-- Register Number -->
+
+            <div class="form-group">
+
+                <label>
+                    Register Number
+                </label>
+
+                <input
+                    type="text"
+                    id="regno"
+                    placeholder="Enter register number">
+
+            </div>
+
+
+
+            <!-- Reservation Date -->
+
+            <div class="form-group">
+
+                <label>
+                    Reservation Date
+                </label>
+
+                <input
+                    type="date"
+                    id="date">
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- Reserve Button -->
+
+        <button
+            class="reserve-btn"
+            onclick="reserveBook()">
+
+            📖 Reserve Book
+
+        </button>
+
+
+
+        <!-- Result -->
+
+        <div id="result">
+
+            <h3>
+                ✅ Book Reservation Successful
+            </h3>
+
+            <p id="resultText"></p>
+
+        </div>
+
+
+
+        <!-- Sample Book List -->
+
+        <h2>
+            📚 Available Library Books
+        </h2>
+
+
+        <table>
+
+            <tr>
+
+                <th>
+                    Book ID
+                </th>
+
+                <th>
+                    Title
+                </th>
+
+                <th>
+                    Author
+                </th>
+
+                <th>
+                    Publication
+                </th>
+
+                <th>
+                    Year
+                </th>
+
+                <th>
+                    Edition
+                </th>
+
+                <th>
+                    Copies
+                </th>
+
+                <th>
+                    Rack No.
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    SIMATS101
+                </td>
+
+                <td>
+                    Python Programming
+                </td>
+
+                <td>
+                    E. Balagurusamy
+                </td>
+
+                <td>
+                    McGraw Hill
+                </td>
+
+                <td>
+                    2023
+                </td>
+
+                <td>
+                    7th Edition
+                </td>
+
+                <td>
+                    5
+                </td>
+
+                <td>
+                    R-12
+                </td>
+
+                <td>
+                    Returned
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    SIMATS102
+                </td>
+
+                <td>
+                    Database Management Systems
+                </td>
+
+                <td>
+                    Korth
+                </td>
+
+                <td>
+                    McGraw Hill
+                </td>
+
+                <td>
+                    2022
+                </td>
+
+                <td>
+                    6th Edition
+                </td>
+
+                <td>
+                    3
+                </td>
+
+                <td>
+                    R-15
+                </td>
+
+                <td>
+                    Taken
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    SIMATS103
+                </td>
+
+                <td>
+                    Machine Learning
+                </td>
+
+                <td>
+                    Tom Mitchell
+                </td>
+
+                <td>
+                    McGraw Hill
+                </td>
+
+                <td>
+                    2021
+                </td>
+
+                <td>
+                    1st Edition
+                </td>
+
+                <td>
+                    4
+                </td>
+
+                <td>
+                    R-20
+                </td>
+
+                <td>
+                    Returned
+                </td>
+
+            </tr>
+
+
+        </table>
+
+
+
+        <!-- SaaS Information -->
+
+        <div class="cloud">
+
+            ☁️ Cloud SaaS Application
+
+            <br>
+
+            SIMATS Library Management System
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- JavaScript -->
+
+    <script>
+
+
+        function searchBook() {
+
+            let search =
+                document.getElementById("search")
+                .value
+                .toLowerCase();
+
+
+            if (search === "") {
+
+                alert(
+                    "Please enter a book title or author."
+                );
+
+                return;
+            }
+
+
+            alert(
+                "Searching library books for: "
+                + search
+            );
+
+        }
+
+
+
+        function reserveBook() {
+
+
+            let bookId =
+                document.getElementById("bookId").value;
+
+            let title =
+                document.getElementById("title").value;
+
+            let author =
+                document.getElementById("author").value;
+
+            let publication =
+                document.getElementById("publication").value;
+
+            let year =
+                document.getElementById("year").value;
+
+            let edition =
+                document.getElementById("edition").value;
+
+            let copies =
+                document.getElementById("copies").value;
+
+            let rack =
+                document.getElementById("rack").value;
+
+            let status =
+                document.getElementById("status").value;
+
+            let student =
+                document.getElementById("student").value;
+
+            let regno =
+                document.getElementById("regno").value;
+
+            let date =
+                document.getElementById("date").value;
+
+
+
+            if (
+                bookId === "" ||
+                title === "" ||
+                author === "" ||
+                student === "" ||
+                regno === "" ||
+                date === ""
+            ) {
+
+                alert(
+                    "Please fill all required fields."
+                );
+
+                return;
+            }
+
+
+
+            let message =
+
+                "<b>Book ID:</b> "
+                + bookId
+                + "<br>"
+
+                + "<b>Title:</b> "
+                + title
+                + "<br>"
+
+                + "<b>Author:</b> "
+                + author
+                + "<br>"
+
+                + "<b>Publication:</b> "
+                + publication
+                + "<br>"
+
+                + "<b>Year:</b> "
+                + year
+                + "<br>"
+
+                + "<b>Edition:</b> "
+                + edition
+                + "<br>"
+
+                + "<b>No. of Copies:</b> "
+                + copies
+                + "<br>"
+
+                + "<b>Rack No.:</b> "
+                + rack
+                + "<br>"
+
+                + "<b>Status:</b> "
+                + status
+                + "<br>"
+
+                + "<b>Student:</b> "
+                + student
+                + "<br>"
+
+                + "<b>Register No:</b> "
+                + regno
+                + "<br>"
+
+                + "<b>Reservation Date:</b> "
+                + date;
+
+
+
+            document.getElementById("resultText")
+                .innerHTML = message;
+
+
+            document.getElementById("result")
+                .style.display = "block";
+
+        }
+
+    </script>
+
+
+</body>
+</html>
+```
