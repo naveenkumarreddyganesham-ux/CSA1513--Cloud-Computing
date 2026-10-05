@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Student Information System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f2f6fb;
+            color: #222;
+        }
+
+        header {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin: 8px 0 0;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1150px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #333;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / 3;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background: #1565c0;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .secondary {
+            background: #388e3c;
+        }
+
+        .secondary:hover {
+            background: #1b5e20;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background: #607d8b;
+        }
+
+        .tab-button:hover {
+            background: #455a64;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .result-box {
+            background: #eef5ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .student-card {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .info {
+            background: #f5f9ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .info strong {
+            display: block;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1565c0;
+            color: white;
+        }
+
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+
+        .good {
+            color: #1565c0;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #d84315;
+            font-weight: bold;
+        }
+
+        .c-program {
+            background: #1e1e1e;
+            color: #00ff66;
+            padding: 20px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            min-height: 180px;
+        }
+
+        .footer {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+
+        @media(max-width: 700px) {
+            .form-grid,
+            .student-card {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>☁️ Cloud Student Information System</h1>
+    <p>SaaS Based Student Academic Management Application</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Student Management Dashboard</h2>
+
+        <div class="tabs">
+            <button class="tab-button" onclick="showSection('student')">
+                Student Information
+            </button>
+
+            <button class="tab-button" onclick="showSection('courses')">
+                Courses & Grades
+            </button>
+
+            <button class="tab-button" onclick="showSection('attendance')">
+                Attendance Report
+            </button>
+
+            <button class="tab-button" onclick="showSection('progress')">
+                Progress Report
+            </button>
+
+            <button class="tab-button" onclick="showSection('marksheet')">
+                Semester Mark Sheet
+            </button>
+
+            <button class="tab-button" onclick="showSection('cprogram')">
+                C Program
+            </button>
+        </div>
+    </div>
+
+
+    <!-- STUDENT INFORMATION -->
+
+    <div class="card section active" id="student">
+
+        <h2>👨‍🎓 Student Information</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Student Name</label>
+                <input type="text" id="studentName"
+                       placeholder="Enter student name">
+            </div>
+
+            <div>
+                <label>Register Number</label>
+                <input type="text" id="regNo"
+                       placeholder="Enter register number">
+            </div>
+
+            <div>
+                <label>Age</label>
+                <input type="number" id="age"
+                       placeholder="Enter age">
+            </div>
+
+            <div>
+                <label>Phone</label>
+                <input type="tel" id="phone"
+                       placeholder="Enter phone number">
+            </div>
+
+            <div class="full">
+                <label>Address</label>
+                <textarea id="address"
+                          placeholder="Enter student address"></textarea>
+            </div>
+
+            <div>
+                <label>Department</label>
+                <select id="department">
+                    <option value="">Select Department</option>
+                    <option>CSE - AIML</option>
+                    <option>Computer Science Engineering</option>
+                    <option>Information Technology</option>
+                    <option>ECE</option>
+                    <option>Mechanical Engineering</option>
+                    <option>Civil Engineering</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Semester</label>
+                <select id="semester">
+                    <option value="">Select Semester</option>
+                    <option>Semester 1</option>
+                    <option>Semester 2</option>
+                    <option>Semester 3</option>
+                    <option>Semester 4</option>
+                    <option>Semester 5</option>
+                    <option>Semester 6</option>
+                    <option>Semester 7</option>
+                    <option>Semester 8</option>
+                </select>
+            </div>
+
+        </div>
+
+        <button onclick="displayStudent()">
+            Display Student Information
+        </button>
+
+        <div class="result-box" id="studentResult"
+             style="display:none;">
+
+            <h3>Student Details</h3>
+
+            <div class="student-card">
+
+                <div class="info">
+                    <strong>Name</strong>
+                    <span id="rName"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Register Number</strong>
+                    <span id="rRegNo"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Age</strong>
+                    <span id="rAge"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Phone</strong>
+                    <span id="rPhone"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Address</strong>
+                    <span id="rAddress"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Department</strong>
+                    <span id="rDepartment"></span>
+                </div>
+
+                <div class="info">
+                    <strong>Semester</strong>
+                    <span id="rSemester"></span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- COURSES AND GRADES -->
+
+    <div class="card section" id="courses">
+
+        <h2>📚 Courses & Grades</h2>
+
+        <table>
+
+            <tr>
+                <th>Course</th>
+                <th>Marks</th>
+                <th>Grade</th>
+            </tr>
+
+            <tr>
+                <td>Python Programming</td>
+                <td>
+                    <input type="number" id="python"
+                           min="0" max="100"
+                           placeholder="Marks">
+                </td>
+                <td id="pythonGrade">-</td>
+            </tr>
+
+            <tr>
+                <td>DBMS</td>
+                <td>
+                    <input type="number" id="dbms"
+                           min="0" max="100"
+                           placeholder="Marks">
+                </td>
+                <td id="dbmsGrade">-</td>
+            </tr>
+
+            <tr>
+                <td>Machine Learning</td>
+                <td>
+                    <input type="number" id="ml"
+                           min="0" max="100"
+                           placeholder="Marks">
+                </td>
+                <td id="mlGrade">-</td>
+            </tr>
+
+            <tr>
+                <td>Cloud Computing</td>
+                <td>
+                    <input type="number" id="cloud"
+                           min="0" max="100"
+                           placeholder="Marks">
+                </td>
+                <td id="cloudGrade">-</td>
+            </tr>
+
+            <tr>
+                <td>Computer Networks</td>
+                <td>
+                    <input type="number" id="cn"
+                           min="0" max="100"
+                           placeholder="Marks">
+                </td>
+                <td id="cnGrade">-</td>
+            </tr>
+
+        </table>
+
+        <button onclick="calculateGrades()">
+            Calculate Grades
+        </button>
+
+        <div class="result-box">
+            <strong>Average Marks:</strong>
+            <span id="averageMarks">-</span>
+        </div>
+
+    </div>
+
+
+    <!-- ATTENDANCE -->
+
+    <div class="card section" id="attendance">
+
+        <h2>📊 Attendance Report</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Total Classes</label>
+                <input type="number" id="totalClasses"
+                       placeholder="Enter total classes">
+            </div>
+
+            <div>
+                <label>Classes Attended</label>
+                <input type="number" id="attendedClasses"
+                       placeholder="Enter attended classes">
+            </div>
+
+        </div>
+
+        <button onclick="calculateAttendance()">
+            Generate Attendance Report
+        </button>
+
+        <div class="result-box">
+            <h3>Attendance Report</h3>
+
+            <p>
+                Attendance Percentage:
+                <strong id="attendancePercentage">-</strong>
+            </p>
+
+            <p>
+                Attendance Status:
+                <strong id="attendanceStatus">-</strong>
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- PROGRESS REPORT -->
+
+    <div class="card section" id="progress">
+
+        <h2>📈 Student Progress Report</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Previous Semester Percentage</label>
+                <input type="number" id="previousPercentage"
+                       min="0" max="100"
+                       placeholder="Enter percentage">
+            </div>
+
+            <div>
+                <label>Current Semester Percentage</label>
+                <input type="number" id="currentPercentage"
+                       min="0" max="100"
+                       placeholder="Enter percentage">
+            </div>
+
+        </div>
+
+        <button onclick="generateProgress()">
+            Generate Progress Report
+        </button>
+
+        <div class="result-box">
+            <h3>Progress Analysis</h3>
+
+            <p>
+                Performance Change:
+                <strong id="progressChange">-</strong>
+            </p>
+
+            <p>
+                Overall Performance:
+                <strong id="progressStatus">-</strong>
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- SEMESTER MARK SHEET -->
+
+    <div class="card section" id="marksheet">
+
+        <h2>📄 Semester Mark Sheet</h2>
+
+        <table>
+
+            <tr>
+                <th>Subject</th>
+                <th>Marks</th>
+                <th>Result</th>
+            </tr>
+
+            <tr>
+                <td>Python Programming</td>
+                <td id="sheetPython">-</td>
+                <td id="resultPython">-</td>
+            </tr>
+
+            <tr>
+                <td>DBMS</td>
+                <td id="sheetDBMS">-</td>
+                <td id="resultDBMS">-</td>
+            </tr>
+
+            <tr>
+                <td>Machine Learning</td>
+                <td id="sheetML">-</td>
+                <td id="resultML">-</td>
+            </tr>
+
+            <tr>
+                <td>Cloud Computing</td>
+                <td id="sheetCloud">-</td>
+                <td id="resultCloud">-</td>
+            </tr>
+
+            <tr>
+                <td>Computer Networks</td>
+                <td id="sheetCN">-</td>
+                <td id="resultCN">-</td>
+            </tr>
+
+        </table>
+
+        <button onclick="generateMarkSheet()">
+            Generate Mark Sheet
+        </button>
+
+        <div class="result-box">
+            <strong>Total Marks:</strong>
+            <span id="totalMarks">-</span>
+            <br><br>
+
+            <strong>Percentage:</strong>
+            <span id="markPercentage">-</span>
+            <br><br>
+
+            <strong>Overall Result:</strong>
+            <span id="overallResult">-</span>
+        </div>
+
+    </div>
+
+
+    <!-- C PROGRAM -->
+
+    <div class="card section" id="cprogram">
+
+        <h2>💻 C Program - Display Student Information</h2>
+
+        <p>
+            The following C program can be executed using a C compiler.
+            This web application demonstrates how the student information
+            system can be provided as a cloud-based SaaS interface.
+        </p>
+
+        <div class="c-program">
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    char name[50];
+    int regno, age;
+
+    printf("Enter Student Name: ");
+    scanf("%s", name);
+
+    printf("Enter Register Number: ");
+    scanf("%d", &amp;regno);
+
+    printf("Enter Age: ");
+    scanf("%d", &amp;age);
+
+    printf("\n--- Student Information ---\n");
+    printf("Name: %s\n", name);
+    printf("Register Number: %d\n", regno);
+    printf("Age: %d\n", age);
+
+    return 0;
+}
+        </div>
+
+        <button class="secondary" onclick="showCOutput()">
+            Run C Program Demo
+        </button>
+
+        <div class="result-box" id="cOutput"
+             style="display:none;">
+
+            <h3>C Program Output</h3>
+
+            <pre>
+--- Student Information ---
+Name: Naveen
+Register Number: 101
+Age: 19
+
+Program executed successfully.
+            </pre>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+    ☁️ Cloud Student Information System |
+    SaaS Application
+</div>
+
+
+<script>
+
+function showSection(sectionId) {
+
+    let sections =
+        document.querySelectorAll(".section");
+
+    sections.forEach(function(section) {
+        section.classList.remove("active");
+    });
+
+    document.getElementById(sectionId)
+        .classList.add("active");
+}
+
+
+function displayStudent() {
+
+    let name =
+        document.getElementById("studentName").value;
+
+    let regNo =
+        document.getElementById("regNo").value;
+
+    let age =
+        document.getElementById("age").value;
+
+    let phone =
+        document.getElementById("phone").value;
+
+    let address =
+        document.getElementById("address").value;
+
+    let department =
+        document.getElementById("department").value;
+
+    let semester =
+        document.getElementById("semester").value;
+
+    if (name === "" || regNo === "" ||
+        age === "" || phone === "" ||
+        address === "" || department === "" ||
+        semester === "") {
+
+        alert("Please fill all student details.");
+        return;
+    }
+
+    document.getElementById("rName").innerText = name;
+    document.getElementById("rRegNo").innerText = regNo;
+    document.getElementById("rAge").innerText = age;
+    document.getElementById("rPhone").innerText = phone;
+    document.getElementById("rAddress").innerText = address;
+    document.getElementById("rDepartment").innerText =
+        department;
+    document.getElementById("rSemester").innerText =
+        semester;
+
+    document.getElementById("studentResult")
+        .style.display = "block";
+}
+
+
+function getGrade(mark) {
+
+    if (mark >= 90) return "A+";
+    if (mark >= 80) return "A";
+    if (mark >= 70) return "B+";
+    if (mark >= 60) return "B";
+    if (mark >= 50) return "C";
+    if (mark >= 40) return "D";
+
+    return "F";
+}
+
+
+function calculateGrades() {
+
+    let marks = [
+        Number(document.getElementById("python").value),
+        Number(document.getElementById("dbms").value),
+        Number(document.getElementById("ml").value),
+        Number(document.getElementById("cloud").value),
+        Number(document.getElementById("cn").value)
+    ];
+
+    if (marks.some(mark => mark < 0 || mark > 100)) {
+        alert("Enter valid marks between 0 and 100.");
+        return;
+    }
+
+    document.getElementById("pythonGrade").innerText =
+        getGrade(marks[0]);
+
+    document.getElementById("dbmsGrade").innerText =
+        getGrade(marks[1]);
+
+    document.getElementById("mlGrade").innerText =
+        getGrade(marks[2]);
+
+    document.getElementById("cloudGrade").innerText =
+        getGrade(marks[3]);
+
+    document.getElementById("cnGrade").innerText =
+        getGrade(marks[4]);
+
+    let total =
+        marks.reduce((sum, mark) => sum + mark, 0);
+
+    let average = total / marks.length;
+
+    document.getElementById("averageMarks").innerText =
+        average.toFixed(2);
+}
+
+
+function calculateAttendance() {
+
+    let total =
+        Number(document.getElementById("totalClasses").value);
+
+    let attended =
+        Number(document.getElementById("attendedClasses").value);
+
+    if (total <= 0 || attended < 0 || attended > total) {
+        alert("Enter valid attendance details.");
+        return;
+    }
+
+    let percentage =
+        (attended / total) * 100;
+
+    document.getElementById("attendancePercentage")
+        .innerText = percentage.toFixed(2) + "%";
+
+    let status =
+        document.getElementById("attendanceStatus");
+
+    if (percentage >= 75) {
+        status.innerText = "Eligible";
+        status.className = "good";
+    }
+    else {
+        status.innerText = "Attendance Shortage";
+        status.className = "warning";
+    }
+}
+
+
+function generateProgress() {
+
+    let previous =
+        Number(document.getElementById("previousPercentage").value);
+
+    let current =
+        Number(document.getElementById("currentPercentage").value);
+
+    if (previous < 0 || previous > 100 ||
+        current < 0 || current > 100) {
+
+        alert("Enter percentages between 0 and 100.");
+        return;
+    }
+
+    let change = current - previous;
+
+    document.getElementById("progressChange")
+        .innerText =
+        change.toFixed(2) + "%";
+
+    let status =
+        document.getElementById("progressStatus");
+
+    if (change > 0) {
+        status.innerText = "Improved";
+        status.className = "good";
+    }
+    else if (change < 0) {
+        status.innerText = "Needs Improvement";
+        status.className = "warning";
+    }
+    else {
+        status.innerText = "Performance Maintained";
+    }
+}
+
+
+function generateMarkSheet() {
+
+    let marks = [
+        Number(document.getElementById("python").value),
+        Number(document.getElementById("dbms").value),
+        Number(document.getElementById("ml").value),
+        Number(document.getElementById("cloud").value),
+        Number(document.getElementById("cn").value)
+    ];
+
+    if (marks.some(mark => mark < 0 || mark > 100)) {
+        alert("Please enter valid marks in Courses & Grades.");
+        return;
+    }
+
+    document.getElementById("sheetPython").innerText =
+        marks[0];
+
+    document.getElementById("sheetDBMS").innerText =
+        marks[1];
+
+    document.getElementById("sheetML").innerText =
+        marks[2];
+
+    document.getElementById("sheetCloud").innerText =
+        marks[3];
+
+    document.getElementById("sheetCN").innerText =
+        marks[4];
+
+    for (let i = 0; i < marks.length; i++) {
+
+        let result =
+            marks[i] >= 40 ? "PASS" : "FAIL";
+
+        let ids = [
+            "resultPython",
+            "resultDBMS",
+            "resultML",
+            "resultCloud",
+            "resultCN"
+        ];
+
+        document.getElementById(ids[i]).innerText =
+            result;
+    }
+
+    let total =
+        marks.reduce((sum, mark) => sum + mark, 0);
+
+    let percentage =
+        total / marks.length;
+
+    document.getElementById("totalMarks").innerText =
+        total + " / 500";
+
+    document.getElementById("markPercentage").innerText =
+        percentage.toFixed(2) + "%";
+
+    let overall =
+        marks.every(mark => mark >= 40)
+        ? "PASS"
+        : "FAIL";
+
+    document.getElementById("overallResult").innerText =
+        overall;
+}
+
+
+function showCOutput() {
+
+    document.getElementById("cOutput")
+        .style.display = "block";
+}
+
+</script>
+
+</body>
+</html>

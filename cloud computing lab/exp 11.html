@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Online Super Market</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f3f7f4;
+            color: #222;
+        }
+
+        header {
+            background: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin: 8px 0 0;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / 3;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #1b5e20;
+        }
+
+        .result {
+            display: none;
+        }
+
+        .item-classification {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .category {
+            background: #e8f5e9;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .category:hover {
+            background: #c8e6c9;
+        }
+
+        .category h3 {
+            color: #2e7d32;
+            margin: 5px;
+        }
+
+        .bill {
+            background: #f8fff8;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #2e7d32;
+        }
+
+        footer {
+            background: #2e7d32;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+
+        @media(max-width: 700px) {
+            .form-grid,
+            .item-classification {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🛒 Cloud Online Super Market</h1>
+    <p>SaaS Based Online Shopping Application</p>
+</header>
+
+<div class="container">
+
+    <!-- CUSTOMER INFORMATION -->
+
+    <div class="card">
+        <h2>👤 Customer Information</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Customer Name</label>
+                <input type="text" id="customerName"
+                       placeholder="Enter customer name">
+            </div>
+
+            <div>
+                <label>Phone Number</label>
+                <input type="tel" id="phone"
+                       placeholder="Enter phone number">
+            </div>
+
+            <div>
+                <label>Email</label>
+                <input type="email" id="email"
+                       placeholder="Enter email address">
+            </div>
+
+            <div class="full">
+                <label>Delivery Address</label>
+                <textarea id="address"
+                          placeholder="Enter delivery address"></textarea>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ITEM CLASSIFICATION -->
+
+    <div class="card">
+        <h2>📦 Item Classification Form</h2>
+
+        <div class="item-classification">
+
+            <div class="category" onclick="selectCategory('Grocery')">
+                <div>🥦</div>
+                <h3>Grocery</h3>
+                <p>Rice, Dal, Oil</p>
+            </div>
+
+            <div class="category" onclick="selectCategory('Fruits & Vegetables')">
+                <div>🍎</div>
+                <h3>Fruits & Vegetables</h3>
+                <p>Fresh Products</p>
+            </div>
+
+            <div class="category" onclick="selectCategory('Dairy')">
+                <div>🥛</div>
+                <h3>Dairy</h3>
+                <p>Milk, Curd, Cheese</p>
+            </div>
+
+            <div class="category" onclick="selectCategory('Beverages')">
+                <div>🥤</div>
+                <h3>Beverages</h3>
+                <p>Juice, Drinks</p>
+            </div>
+
+            <div class="category" onclick="selectCategory('Snacks')">
+                <div>🍪</div>
+                <h3>Snacks</h3>
+                <p>Biscuits, Chips</p>
+            </div>
+
+            <div class="category" onclick="selectCategory('Personal Care')">
+                <div>🧴</div>
+                <h3>Personal Care</h3>
+                <p>Soap, Shampoo</p>
+            </div>
+
+            <div class="category" onclick="selectCategory('Household')">
+                <div>🧹</div>
+                <h3>Household</h3>
+                <p>Cleaning Products</p>
+            </div>
+
+            <div class="category" onclick="selectCategory('Stationery')">
+                <div>📚</div>
+                <h3>Stationery</h3>
+                <p>Books, Pens</p>
+            </div>
+
+        </div>
+
+        <div class="form-grid" style="margin-top:25px;">
+
+            <div>
+                <label>Item Classification</label>
+                <select id="category">
+                    <option value="">Select Category</option>
+                    <option>Grocery</option>
+                    <option>Fruits & Vegetables</option>
+                    <option>Dairy</option>
+                    <option>Beverages</option>
+                    <option>Snacks</option>
+                    <option>Personal Care</option>
+                    <option>Household</option>
+                    <option>Stationery</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Item Name</label>
+                <select id="item" onchange="setPrice()">
+                    <option value="">Select Item</option>
+                    <option value="Rice">Rice</option>
+                    <option value="Wheat">Wheat</option>
+                    <option value="Milk">Milk</option>
+                    <option value="Apple">Apple</option>
+                    <option value="Banana">Banana</option>
+                    <option value="Biscuits">Biscuits</option>
+                    <option value="Juice">Juice</option>
+                    <option value="Soap">Soap</option>
+                    <option value="Shampoo">Shampoo</option>
+                    <option value="Detergent">Detergent</option>
+                    <option value="Notebook">Notebook</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Quantity</label>
+                <input type="number" id="quantity"
+                       min="1" value="1">
+            </div>
+
+            <div>
+                <label>Price per Item (₹)</label>
+                <input type="number" id="price"
+                       readonly>
+            </div>
+
+        </div>
+
+        <button onclick="addItem()">
+            Add Item to Cart
+        </button>
+
+    </div>
+
+
+    <!-- CART -->
+
+    <div class="card">
+        <h2>🛒 Shopping Cart</h2>
+
+        <table id="cartTable">
+
+            <tr>
+                <th>Category</th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+
+        </table>
+
+        <div class="total">
+            Cart Total: ₹<span id="cartTotal">0.00</span>
+        </div>
+
+        <button onclick="generateBill()">
+            Generate Bill
+        </button>
+    </div>
+
+
+    <!-- BILL -->
+
+    <div class="card result" id="bill">
+
+        <h2>🧾 Customer Bill</h2>
+
+        <div class="bill">
+
+            <p>
+                <strong>Customer Name:</strong>
+                <span id="billName"></span>
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                <span id="billPhone"></span>
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                <span id="billEmail"></span>
+            </p>
+
+            <p>
+                <strong>Delivery Address:</strong>
+                <span id="billAddress"></span>
+            </p>
+
+            <hr>
+
+            <h3>Order Summary</h3>
+
+            <table id="billTable">
+
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                </tr>
+
+            </table>
+
+            <div class="total">
+                Total Amount: ₹<span id="billTotal"></span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+    ☁️ Cloud Online Super Market | SaaS Application
+</footer>
+
+
+<script>
+
+let cart = [];
+
+let prices = {
+    "Rice": 60,
+    "Wheat": 55,
+    "Milk": 30,
+    "Apple": 120,
+    "Banana": 60,
+    "Biscuits": 40,
+    "Juice": 80,
+    "Soap": 45,
+    "Shampoo": 120,
+    "Detergent": 150,
+    "Notebook": 50
+};
+
+
+function selectCategory(category) {
+
+    document.getElementById("category").value =
+        category;
+}
+
+
+function setPrice() {
+
+    let item =
+        document.getElementById("item").value;
+
+    document.getElementById("price").value =
+        prices[item] || "";
+}
+
+
+function addItem() {
+
+    let category =
+        document.getElementById("category").value;
+
+    let item =
+        document.getElementById("item").value;
+
+    let quantity =
+        Number(document.getElementById("quantity").value);
+
+    let price =
+        Number(document.getElementById("price").value);
+
+    if (category === "" || item === "" ||
+        quantity <= 0 || price <= 0) {
+
+        alert("Please select category, item and quantity.");
+        return;
+    }
+
+    let total = quantity * price;
+
+    cart.push({
+        category: category,
+        item: item,
+        quantity: quantity,
+        price: price,
+        total: total
+    });
+
+    displayCart();
+}
+
+
+function displayCart() {
+
+    let table =
+        document.getElementById("cartTable");
+
+    table.innerHTML = `
+        <tr>
+            <th>Category</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+    `;
+
+    let grandTotal = 0;
+
+    cart.forEach(function(product) {
+
+        let row = table.insertRow();
+
+        row.insertCell(0).innerText =
+            product.category;
+
+        row.insertCell(1).innerText =
+            product.item;
+
+        row.insertCell(2).innerText =
+            product.quantity;
+
+        row.insertCell(3).innerText =
+            "₹" + product.price;
+
+        row.insertCell(4).innerText =
+            "₹" + product.total;
+
+        grandTotal += product.total;
+    });
+
+    document.getElementById("cartTotal")
+        .innerText = grandTotal.toFixed(2);
+}
+
+
+function generateBill() {
+
+    let name =
+        document.getElementById("customerName").value;
+
+    let phone =
+        document.getElementById("phone").value;
+
+    let email =
+        document.getElementById("email").value;
+
+    let address =
+        document.getElementById("address").value;
+
+    if (name === "" || phone === "" ||
+        address === "") {
+
+        alert("Please enter customer details.");
+        return;
+    }
+
+    if (cart.length === 0) {
+
+        alert("Please add at least one item.");
+        return;
+    }
+
+    document.getElementById("billName").innerText =
+        name;
+
+    document.getElementById("billPhone").innerText =
+        phone;
+
+    document.getElementById("billEmail").innerText =
+        email === "" ? "Not Provided" : email;
+
+    document.getElementById("billAddress").innerText =
+        address;
+
+
+    let table =
+        document.getElementById("billTable");
+
+    table.innerHTML = `
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+        </tr>
+    `;
+
+    let grandTotal = 0;
+
+    cart.forEach(function(product) {
+
+        let row = table.insertRow();
+
+        row.insertCell(0).innerText =
+            product.item;
+
+        row.insertCell(1).innerText =
+            product.quantity;
+
+        row.insertCell(2).innerText =
+            "₹" + product.total;
+
+        grandTotal += product.total;
+    });
+
+    document.getElementById("billTotal")
+        .innerText = grandTotal.toFixed(2);
+
+    document.getElementById("bill")
+        .style.display = "block";
+}
+
+</script>
+
+</body>
+</html>

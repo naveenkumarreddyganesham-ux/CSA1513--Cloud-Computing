@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMATS Hospital Information System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #eef5f9;
+        }
+
+        header {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin: 8px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / 3;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #bbb;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background: #1565c0;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .result {
+            display: none;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .result-box {
+            background: #eef6ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .result-box strong {
+            display: block;
+            color: #555;
+            margin-bottom: 7px;
+        }
+
+        .status {
+            padding: 7px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .admitted {
+            background: #c8e6c9;
+            color: #256029;
+        }
+
+        .discharged {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .outpatient {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        footer {
+            background: #1565c0;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        @media(max-width: 700px) {
+            .form-grid,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🏥 SIMATS Hospital Information System</h1>
+    <p>☁️ Cloud Based SaaS Application</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Patient Information</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Patient Name</label>
+                <input type="text" id="patientName"
+                       placeholder="Enter patient name">
+            </div>
+
+            <div>
+                <label>Patient ID</label>
+                <input type="text" id="patientId"
+                       placeholder="Enter patient ID">
+            </div>
+
+            <div>
+                <label>Age</label>
+                <input type="number" id="age"
+                       placeholder="Enter age">
+            </div>
+
+            <div>
+                <label>Gender</label>
+                <select id="gender">
+                    <option value="">Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="full">
+                <label>Address</label>
+                <textarea id="address"
+                          placeholder="Enter patient address"></textarea>
+            </div>
+
+            <div>
+                <label>Phone</label>
+                <input type="tel" id="phone"
+                       placeholder="Enter phone number">
+            </div>
+
+            <div>
+                <label>Email</label>
+                <input type="email" id="email"
+                       placeholder="Enter email">
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="card">
+        <h2>Attender Information</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Attender Name</label>
+                <input type="text" id="attenderName"
+                       placeholder="Enter attender name">
+            </div>
+
+            <div>
+                <label>Attender Phone</label>
+                <input type="tel" id="attenderPhone"
+                       placeholder="Enter attender phone">
+            </div>
+
+            <div>
+                <label>Relationship</label>
+                <select id="relationship">
+                    <option value="">Select Relationship</option>
+                    <option>Father</option>
+                    <option>Mother</option>
+                    <option>Brother</option>
+                    <option>Sister</option>
+                    <option>Spouse</option>
+                    <option>Guardian</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="card">
+        <h2>Medical Information</h2>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Doctor Name</label>
+                <select id="doctor">
+                    <option value="">Select Doctor</option>
+                    <option>Dr. Arun Kumar</option>
+                    <option>Dr. Priya Sharma</option>
+                    <option>Dr. Ravi Kumar</option>
+                    <option>Dr. Meena Devi</option>
+                    <option>Dr. Suresh Babu</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Department</label>
+                <select id="department">
+                    <option value="">Select Department</option>
+                    <option>General Medicine</option>
+                    <option>Cardiology</option>
+                    <option>Neurology</option>
+                    <option>Orthopedics</option>
+                    <option>Pediatrics</option>
+                    <option>Dermatology</option>
+                    <option>ENT</option>
+                    <option>Dental</option>
+                    <option>Emergency</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Disease</label>
+                <input type="text" id="disease"
+                       placeholder="Enter disease">
+            </div>
+
+            <div>
+                <label>Blood Group</label>
+                <select id="bloodGroup">
+                    <option value="">Select Blood Group</option>
+                    <option>A+</option>
+                    <option>A-</option>
+                    <option>B+</option>
+                    <option>B-</option>
+                    <option>AB+</option>
+                    <option>AB-</option>
+                    <option>O+</option>
+                    <option>O-</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Appointment Date</label>
+                <input type="date" id="appointmentDate">
+            </div>
+
+            <div>
+                <label>Patient Status</label>
+                <select id="patientStatus">
+                    <option value="">Select Status</option>
+                    <option>Admitted</option>
+                    <option>Out Patient</option>
+                    <option>Discharged</option>
+                    <option>Under Observation</option>
+                </select>
+            </div>
+
+            <div class="full">
+                <label>Symptoms / Medical Notes</label>
+                <textarea id="notes"
+                          placeholder="Enter symptoms or medical notes"></textarea>
+            </div>
+
+        </div>
+
+        <button onclick="generateRecord()">
+            Generate Patient Record
+        </button>
+    </div>
+
+
+    <div class="card result" id="result">
+
+        <h2>📋 Patient Record</h2>
+
+        <div class="result-grid">
+
+            <div class="result-box">
+                <strong>Patient Name</strong>
+                <span id="rName"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Patient ID</strong>
+                <span id="rPatientId"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Age</strong>
+                <span id="rAge"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Gender</strong>
+                <span id="rGender"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Address</strong>
+                <span id="rAddress"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Phone</strong>
+                <span id="rPhone"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Email</strong>
+                <span id="rEmail"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Attender Name</strong>
+                <span id="rAttender"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Attender Phone</strong>
+                <span id="rAttenderPhone"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Relationship</strong>
+                <span id="rRelationship"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Doctor Name</strong>
+                <span id="rDoctor"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Department</strong>
+                <span id="rDepartment"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Disease</strong>
+                <span id="rDisease"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Blood Group</strong>
+                <span id="rBlood"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Appointment Date</strong>
+                <span id="rDate"></span>
+            </div>
+
+            <div class="result-box">
+                <strong>Patient Status</strong>
+                <span id="rStatus"></span>
+            </div>
+
+        </div>
+
+        <div class="result-box" style="margin-top:15px;">
+            <strong>Medical Notes</strong>
+            <span id="rNotes"></span>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    ☁️ SIMATS Hospital | Cloud SaaS Hospital Information System
+</footer>
+
+
+<script>
+
+function generateRecord() {
+
+    let patientName =
+        document.getElementById("patientName").value;
+
+    let patientId =
+        document.getElementById("patientId").value;
+
+    let age =
+        document.getElementById("age").value;
+
+    let gender =
+        document.getElementById("gender").value;
+
+    let address =
+        document.getElementById("address").value;
+
+    let phone =
+        document.getElementById("phone").value;
+
+    let email =
+        document.getElementById("email").value;
+
+    let attenderName =
+        document.getElementById("attenderName").value;
+
+    let attenderPhone =
+        document.getElementById("attenderPhone").value;
+
+    let relationship =
+        document.getElementById("relationship").value;
+
+    let doctor =
+        document.getElementById("doctor").value;
+
+    let department =
+        document.getElementById("department").value;
+
+    let disease =
+        document.getElementById("disease").value;
+
+    let bloodGroup =
+        document.getElementById("bloodGroup").value;
+
+    let appointmentDate =
+        document.getElementById("appointmentDate").value;
+
+    let patientStatus =
+        document.getElementById("patientStatus").value;
+
+    let notes =
+        document.getElementById("notes").value;
+
+
+    if (patientName === "" ||
+        patientId === "" ||
+        age === "" ||
+        gender === "" ||
+        address === "" ||
+        phone === "" ||
+        attenderName === "" ||
+        attenderPhone === "" ||
+        doctor === "" ||
+        department === "" ||
+        disease === "" ||
+        patientStatus === "") {
+
+        alert("Please fill all required fields.");
+        return;
+    }
+
+
+    document.getElementById("rName").innerText =
+        patientName;
+
+    document.getElementById("rPatientId").innerText =
+        patientId;
+
+    document.getElementById("rAge").innerText =
+        age;
+
+    document.getElementById("rGender").innerText =
+        gender;
+
+    document.getElementById("rAddress").innerText =
+        address;
+
+    document.getElementById("rPhone").innerText =
+        phone;
+
+    document.getElementById("rEmail").innerText =
+        email === "" ? "Not Provided" : email;
+
+    document.getElementById("rAttender").innerText =
+        attenderName;
+
+    document.getElementById("rAttenderPhone").innerText =
+        attenderPhone;
+
+    document.getElementById("rRelationship").innerText =
+        relationship === "" ? "Not Provided" : relationship;
+
+    document.getElementById("rDoctor").innerText =
+        doctor;
+
+    document.getElementById("rDepartment").innerText =
+        department;
+
+    document.getElementById("rDisease").innerText =
+        disease;
+
+    document.getElementById("rBlood").innerText =
+        bloodGroup === "" ? "Not Provided" : bloodGroup;
+
+    document.getElementById("rDate").innerText =
+        appointmentDate === "" ? "Not Provided" : appointmentDate;
+
+    document.getElementById("rStatus").innerText =
+        patientStatus;
+
+    document.getElementById("rNotes").innerText =
+        notes === "" ? "No additional notes" : notes;
+
+
+    let status = document.getElementById("rStatus");
+
+    if (patientStatus === "Admitted") {
+        status.className = "status admitted";
+    }
+    else if (patientStatus === "Discharged") {
+        status.className = "status discharged";
+    }
+    else {
+        status.className = "status outpatient";
+    }
+
+
+    document.getElementById("result").style.display =
+        "block";
+}
+
+</script>
+
+</body>
+</html>
